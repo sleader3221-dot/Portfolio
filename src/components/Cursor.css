@@ -1,0 +1,73 @@
+.cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+}
+.cursor-in .cursor {
+  opacity: 1;
+}
+.cursor__dot,
+.cursor__ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  will-change: transform;
+}
+.cursor__dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--bone);
+}
+.cursor__ring {
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  display: grid;
+  place-items: center;
+}
+.cursor__ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgb(236 231 222 / 0.55);
+  transition: transform 0.6s var(--ease-out), background-color 0.4s var(--ease-out), border-color 0.4s;
+}
+.cursor__ring.is-hover::before {
+  transform: scale(1.6);
+  border-color: var(--bone);
+}
+.cursor__ring.is-label::before {
+  transform: scale(2.3);
+  background: var(--bone);
+  border-color: var(--bone);
+}
+.cursor__ring.is-press::before {
+  transform: scale(0.8);
+}
+.cursor__ring.is-label.is-press::before {
+  transform: scale(2);
+}
+.cursor__text {
+  position: relative;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.3s var(--ease-out), transform 0.5s var(--ease-out);
+}
+.cursor__ring.is-label .cursor__text {
+  opacity: 1;
+  transform: none;
+}

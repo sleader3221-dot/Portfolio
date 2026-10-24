@@ -1,0 +1,215 @@
+.hdr {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 120;
+  height: var(--header-h);
+  padding-inline: var(--gutter);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  color: var(--bone);
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+.hdr > * {
+  pointer-events: auto;
+}
+
+.hdr__mark {
+  justify-self: start;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.hdr__mono {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+.hdr__case {
+  color: var(--bone-2);
+}
+
+.hdr__now {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--bone);
+  white-space: nowrap;
+}
+.hdr__now-k {
+  color: var(--bone-3);
+}
+.hdr__now-v {
+  min-width: 11ch;
+}
+.hdr__rule {
+  width: 34px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.hdr__right {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 32px;
+}
+.hdr__clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.hdr__menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+}
+.hdr__menu .label {
+  color: var(--bone);
+  min-width: 5ch;
+  text-align: right;
+}
+.hdr__burger {
+  position: relative;
+  width: 28px;
+  height: 10px;
+}
+.hdr__burger i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.6s var(--ease-out), top 0.6s var(--ease-out);
+}
+.hdr__burger i:first-child {
+  top: 0;
+}
+.hdr__burger i:last-child {
+  top: 8px;
+}
+.hdr__menu.is-open .hdr__burger i:first-child {
+  top: 4px;
+  transform: rotate(45deg);
+}
+.hdr__menu.is-open .hdr__burger i:last-child {
+  top: 4px;
+  transform: rotate(-45deg);
+}
+
+/* ---------- Menu overlay ---------- */
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: var(--ink-2);
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  align-items: end;
+  gap: var(--gutter);
+  padding: calc(var(--header-h) + 4vh) var(--gutter) 6vh;
+}
+.menu::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 70% at 80% 20%, rgb(143 125 255 / 0.1), transparent 70%),
+    radial-gradient(50% 60% at 10% 90%, rgb(255 90 31 / 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.menu__list {
+  display: grid;
+  gap: 0.2vh;
+}
+.menu__link {
+  display: block;
+  overflow: hidden;
+  line-height: 0.98;
+}
+.menu__link-inner {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+.menu__idx {
+  padding-top: 0.9em;
+  color: var(--bone-3);
+}
+.menu__txt {
+  font-size: clamp(2.6rem, 7.4vh, 6.2rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  transition: color 0.5s var(--ease-out), transform 0.7s var(--ease-out), font-variation-settings 0.7s var(--ease-out);
+}
+.menu__list:hover .menu__txt {
+  color: var(--bone-3);
+}
+.menu__list .menu__link:hover .menu__txt,
+.menu__link:focus-visible .menu__txt {
+  color: var(--bone);
+  transform: translateX(0.18em);
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.menu__aside {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  align-content: end;
+  padding-bottom: 1vh;
+}
+.menu__mail {
+  font-size: clamp(1.2rem, 2vw, 1.9rem);
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid var(--line-2);
+  padding-bottom: 12px;
+  width: fit-content;
+}
+.menu__socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-size: var(--t-small);
+  color: var(--bone-2);
+}
+.menu__socials a:hover {
+  color: var(--bone);
+}
+.menu__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .hdr {
+    grid-template-columns: 1fr auto;
+  }
+  .hdr__now,
+  .hdr__case {
+    display: none;
+  }
+  .hdr__right {
+    gap: 18px;
+  }
+  .menu {
+    grid-template-columns: 1fr;
+    align-items: start;
+    align-content: space-between;
+  }
+}
+@media (max-width: 480px) {
+  .hdr__clock {
+    display: none;
+  }
+}

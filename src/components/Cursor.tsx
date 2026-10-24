@@ -1,93 +1,70 @@
-﻿import { useEffect, useRef } from "react";
-import "./styles/Cursor.css";
+import { useEffect, useRef } from "react";
+import { gsap } from "../lib/gsap";
+import { finePointer, reducedMotion } from "../lib/env";
+import "./Cursor.css";
 
-const Cursor = () => {
-   const cursorRef = useRef<HTMLDivElement>(null);
-   const dotRef = useRef<HTMLDivElement>(null);
-   const posRef = useRef({ x: -100, y: -100 });
-   const currentRef = useRef({ x: -100, y: -100 });
-   const isHoverRef = useRef(false);
-   const isIconsRef = useRef(false);
-   const isDisableRef = useRef(false);
+/** Two-part cursor: a precise dot and a lagging ring that opens into a contextual label. */
+export default function Cursor() {
+  const dot = useRef<HTMLDivElement>(null);
+  const ring = useRef<HTMLDivElement>(null);
+  const text = useRef<HTMLSpanElement>(null);
 
-   useEffect(() => {
-      const cursor = cursorRef.current;
-      const dot = dotRef.current;
-      if (!cursor || !dot) return;
+  useEffect(() => {
+    if (!finePointer || reducedMotion || !dot.current || !ring.current) return;
+    const html = document.documentElement;
+    html.classList.add("has-cursor");
+    const dx = gsap.quickTo(dot.current, "x", { duration: 0.12, ease: "power3" });
+    const dy = gsap.quickTo(dot.current, "y", { duration: 0.12, ease: "power3" });
+    const rx = gsap.quickTo(ring.current, "x", { duration: 0.55, ease: "power3" });
+    const ry = gsap.quickTo(ring.current, "y", { duration: 0.55, ease: "power3" });
+    const r = ring.current;
+    let label = "";
 
-      const onMouseMove = (e: MouseEvent) => {
-         posRef.current.x = e.clientX;
-         posRef.current.y = e.clientY;
+    const move = (e: PointerEvent) => {
+      dx(e.clientX);
+      dy(e.clientY);
+      rx(e.clientX);
+      ry(e.clientY);
+      html.classList.add("cursor-in");
+      over(e);
+    };
+    // Re-evaluated on every move so canvases can change their label per hovered node.
+    const over = (e: PointerEvent) => {
+      const t = e.target as Element | null;
+      const tagged = t?.closest<HTMLElement>("[data-cursor]");
+      const interactive = t?.closest("a, button, [role='button'], input, textarea, canvas[data-interactive]");
+      const next = tagged?.dataset.cursor ?? "";
+      if (next !== label && text.current) {
+        label = next;
+        text.current.textContent = next;
+      }
+      r.classList.toggle("is-label", next.length > 0);
+      r.classList.toggle("is-hover", !next && Boolean(interactive));
+    };
+    const down = () => r.classList.add("is-press");
+    const up = () => r.classList.remove("is-press");
+    const leave = () => html.classList.remove("cursor-in");
 
-         // Direct hardware-accelerated positioning of central pinpoint dot
-         dot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    window.addEventListener("pointermove", move, { passive: true });
+    window.addEventListener("pointerdown", down);
+    window.addEventListener("pointerup", up);
+    html.addEventListener("pointerleave", leave);
+    return () => {
+      html.classList.remove("has-cursor", "cursor-in");
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerdown", down);
+      window.removeEventListener("pointerup", up);
+      html.removeEventListener("pointerleave", leave);
+    };
+  }, []);
 
-         // Ambient light orbs subtle parallax
-         const xNorm = (e.clientX / window.innerWidth - 0.5) * 35;
-         const yNorm = (e.clientY / window.innerHeight - 0.5) * 35;
-         const circle1 = document.querySelector(".landing-circle1") as HTMLElement;
-         const circle2 = document.querySelector(".landing-circle2") as HTMLElement;
-         if (circle1) {
-            circle1.style.transform = `translate(calc(-95% + ${xNorm * 0.4}px), calc(-75% + ${yNorm * 0.4}px))`;
-         }
-         if (circle2) {
-            circle2.style.transform = `translate(calc(100% - 2px + ${-xNorm * 0.3}px), calc(-50% + ${-yNorm * 0.3}px))`;
-         }
-
-         // Detect cursor target elements
-         const target = e.target as HTMLElement;
-         const hoverElem = target.closest("a, button, [data-cursor], .gallery-card, .what-tags");
-         if (hoverElem) {
-            const cursorMode = (hoverElem as HTMLElement).dataset.cursor;
-            if (cursorMode === "disable") {
-               isDisableRef.current = true;
-               isHoverRef.current = false;
-               isIconsRef.current = false;
-            } else if (cursorMode === "icons") {
-               isIconsRef.current = true;
-               isHoverRef.current = false;
-               isDisableRef.current = false;
-            } else {
-               isHoverRef.current = true;
-               isIconsRef.current = false;
-               isDisableRef.current = false;
-            }
-         } else {
-            isHoverRef.current = false;
-            isIconsRef.current = false;
-            isDisableRef.current = false;
-         }
-
-         cursor.classList.toggle("cursor-hover", isHoverRef.current);
-         cursor.classList.toggle("cursor-icons", isIconsRef.current);
-         cursor.classList.toggle("cursor-disable", isDisableRef.current);
-      };
-
-      let rafId = 0;
-      const animate = () => {
-         // Smooth fluid trailing lerp (0.12 = silky responsiveness)
-         currentRef.current.x += (posRef.current.x - currentRef.current.x) * 0.12;
-         currentRef.current.y += (posRef.current.y - currentRef.current.y) * 0.12;
-
-         cursor.style.transform = `translate3d(${currentRef.current.x}px, ${currentRef.current.y}px, 0)`;
-         rafId = requestAnimationFrame(animate);
-      };
-
-      window.addEventListener("mousemove", onMouseMove, { passive: true });
-      rafId = requestAnimationFrame(animate);
-
-      return () => {
-         window.removeEventListener("mousemove", onMouseMove);
-         cancelAnimationFrame(rafId);
-      };
-   }, []);
-
-   return (
-      <>
-         <div ref={cursorRef} className="cursor-main" />
-         <div ref={dotRef} className="cursor-dot" />
-      </>
-   );
-};
-
-export default Cursor;
+  if (!finePointer || reducedMotion) return null;
+  return (
+    <div className="cursor" aria-hidden="true">
+      <div ref={ring} className="cursor__ring">
+        <span ref={text} className="cursor__text" />
+      </div>
+      <div ref={dot} className="cursor__dot" />
+    </div>
+  );
+}

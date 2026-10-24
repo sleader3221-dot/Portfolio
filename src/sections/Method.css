@@ -1,0 +1,214 @@
+.method {
+  position: relative;
+}
+.method__pin {
+  position: relative;
+  padding-block: var(--section-y) 0;
+}
+.method__title {
+  font-size: var(--t-h2);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  margin-bottom: clamp(40px, 7vh, 80px);
+}
+
+/* Mobile / reduced motion: an honest vertical list. */
+.method__frame {
+  display: grid;
+  gap: 56px;
+}
+.mstep {
+  display: grid;
+  gap: 14px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.mstep__verb {
+  overflow: hidden;
+  font-size: clamp(3rem, 13vw, 6rem);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+  padding-bottom: 0.06em;
+}
+.mstep__verb .serif {
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.mstep__verb-in {
+  display: inline-block;
+  will-change: transform;
+}
+.mstep__dot {
+  color: var(--ember);
+}
+.mstep__body {
+  max-width: 44ch;
+  color: var(--bone-2);
+  font-size: 1.1rem;
+}
+.mprog {
+  display: none;
+}
+
+/* Desktop: the pinned, cinematic version. */
+.method.is-pinned .method__pin {
+  height: 100vh;
+  padding-top: calc(var(--header-h) + 3vh);
+  display: flex;
+  flex-direction: column;
+}
+.method.is-pinned .method__stage {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 5vh;
+}
+.method.is-pinned .shead {
+  margin-bottom: 4vh;
+}
+.method.is-pinned .method__title {
+  font-size: clamp(1.6rem, 2.6vw, 2.8rem);
+  margin-bottom: 0;
+}
+.method.is-pinned .method__frame {
+  position: relative;
+  flex: 1;
+  display: block;
+}
+.method.is-pinned .mstep {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 38ch);
+  grid-template-rows: auto 1fr auto;
+  padding: 0;
+  border: 0;
+}
+.method.is-pinned .mstep__num {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  padding-top: 4vh;
+}
+.method.is-pinned .mstep__body {
+  grid-column: 2;
+  grid-row: 1;
+  padding-top: 4vh;
+  font-size: clamp(1.05rem, 1.25vw, 1.35rem);
+  line-height: 1.45;
+  color: var(--bone);
+}
+.method.is-pinned .mstep__verb {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  font-size: clamp(4rem, 12.5vw, 15rem);
+  line-height: 0.84;
+  margin-left: -0.04em;
+}
+.method.is-pinned .mprog {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  margin-top: 4vh;
+}
+.mprog li {
+  display: grid;
+  gap: 10px;
+}
+.mprog li .label {
+  color: var(--bone-3);
+  transition: color 0.5s var(--ease-out);
+}
+.mprog li.is-on .label {
+  color: var(--bone);
+}
+.mprog__bar {
+  height: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+.mprog__fill {
+  display: block;
+  height: 100%;
+  background: var(--ember);
+  transform-origin: left;
+}
+
+/* ---------- Disciplines ---------- */
+.method__disc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding-block: var(--section-y);
+}
+.disc {
+  --px: 50%;
+  --py: 50%;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  padding: clamp(28px, 3.4vw, 52px);
+  min-height: 460px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: radial-gradient(420px circle at var(--px) var(--py), rgb(255 90 31 / 0.1), transparent 60%),
+    linear-gradient(170deg, rgb(22 22 27 / 0.8), rgb(8 8 10 / 0.7));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: border-color 0.5s var(--ease-out);
+}
+.disc:hover {
+  border-color: rgb(255 90 31 / 0.45);
+}
+.disc__mark {
+  position: absolute;
+  right: -0.06em;
+  bottom: -0.28em;
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: clamp(12rem, 22vw, 22rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(236 231 222 / 0.14);
+  pointer-events: none;
+}
+.disc__title {
+  font-size: var(--t-h3);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+.disc__body {
+  max-width: 46ch;
+  color: var(--bone-2);
+}
+.disc__tools {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.disc__tools li {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  padding: 7px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  color: var(--bone);
+  background: rgb(8 8 10 / 0.5);
+}
+
+@media (max-width: 900px) {
+  .method__disc {
+    grid-template-columns: 1fr;
+  }
+  .disc {
+    min-height: 0;
+  }
+}

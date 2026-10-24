@@ -1,0 +1,18 @@
+.shead {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: clamp(48px, 8vh, 96px);
+}
+.shead__label {
+  color: var(--bone);
+}
+.shead__rule {
+  flex: 1;
+  height: 1px;
+  background: var(--line-2);
+  transform-origin: left;
+}
+.shead__aside {
+  color: var(--bone-3);
+}

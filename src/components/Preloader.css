@@ -1,0 +1,138 @@
+.pre {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 28px var(--gutter);
+  color: var(--bone);
+  overflow: hidden;
+}
+
+.pre__panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50.5%;
+  background: var(--ink);
+  z-index: -1;
+}
+.pre__panel--top {
+  top: 0;
+}
+.pre__panel--bottom {
+  bottom: 0;
+}
+
+.pre__meta {
+  position: absolute;
+  top: 28px;
+  display: flex;
+  gap: 28px;
+}
+.pre__meta--tl {
+  left: var(--gutter);
+}
+.pre__meta--tr {
+  right: var(--gutter);
+}
+.pre__meta span:first-child {
+  color: var(--bone);
+}
+
+.pre__log {
+  grid-row: 2;
+  align-self: center;
+  width: min(620px, 100%);
+  font-family: var(--f-mono);
+  font-size: clamp(0.72rem, 0.68rem + 0.2vw, 0.82rem);
+  letter-spacing: 0.04em;
+  color: var(--bone-3);
+  display: grid;
+  gap: 10px;
+}
+.pre__log li {
+  display: grid;
+  grid-template-columns: 14px auto 1fr auto;
+  align-items: baseline;
+  gap: 10px;
+  animation: pre-line 0.6s var(--ease-out) both;
+}
+.pre__log li.is-done {
+  color: var(--bone-2);
+}
+.pre__log li.is-done .pre__status {
+  color: var(--ember);
+}
+.pre__caret {
+  color: var(--ember);
+}
+.pre__leader {
+  border-bottom: 1px dotted var(--line-2);
+  transform: translateY(-4px);
+}
+@keyframes pre-line {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.pre__foot {
+  grid-row: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 18px;
+}
+.pre__count-wrap {
+  overflow: hidden;
+  line-height: 0.8;
+}
+.pre__count {
+  display: block;
+  font-size: clamp(5rem, 17vw, 17rem);
+  font-weight: 300;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+  line-height: 0.8;
+}
+.pre__sign {
+  display: grid;
+  justify-items: end;
+  gap: 4px;
+  text-align: right;
+  font-size: var(--t-small);
+  color: var(--bone-2);
+}
+.pre__sign span:first-child {
+  font-family: var(--f-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone);
+}
+.pre__sign .serif {
+  font-size: 1.35rem;
+}
+
+.pre__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--ember);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+@media (max-width: 640px) {
+  .pre__meta {
+    gap: 14px;
+  }
+  .pre__sign {
+    display: none;
+  }
+}

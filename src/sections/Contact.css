@@ -1,0 +1,165 @@
+.contact {
+  position: relative;
+  padding-top: var(--section-y);
+}
+.contact__inner {
+  position: relative;
+}
+
+.contact__title {
+  display: grid;
+  font-size: clamp(3.2rem, 9.2vw, 11rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+  margin-bottom: clamp(48px, 8vh, 96px);
+}
+.contact__line {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.24em;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+.contact__line--serif {
+  font-size: 1.12em;
+  letter-spacing: -0.02em;
+  line-height: 0.88;
+  padding-left: 8vw;
+}
+.kw {
+  display: inline-flex;
+}
+.kl {
+  display: inline-block;
+  will-change: transform;
+}
+.contact__stop {
+  color: var(--ember);
+}
+
+.contact__mail-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px 32px;
+  padding-block: 28px;
+  border-block: 1px solid var(--line-2);
+}
+.contact__mail {
+  font-size: clamp(1.5rem, 3.6vw, 3.6rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  transition: color 0.4s;
+}
+.contact__mail:hover {
+  color: var(--ember);
+}
+.contact__copy {
+  padding: 14px 22px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  transition: background-color 0.4s var(--ease-out), border-color 0.4s;
+}
+.contact__copy .label {
+  color: var(--bone);
+}
+.contact__copy:hover {
+  border-color: var(--bone);
+}
+.contact__copy.is-done {
+  background: var(--bone);
+}
+.contact__copy.is-done .label {
+  color: var(--ink);
+}
+
+.contact__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.contact__grid a {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 28px 24px 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+.contact__grid li + li a {
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
+}
+.contact__val {
+  font-size: 1.1rem;
+  transition: color 0.4s;
+}
+.contact__arrow {
+  position: absolute;
+  right: 20px;
+  top: 26px;
+  transition: transform 0.6s var(--ease-out);
+}
+.contact__grid a:hover .contact__arrow {
+  transform: translate(4px, -4px);
+}
+.contact__grid a:hover .contact__val {
+  color: var(--ember);
+}
+
+.contact__status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-top: 28px;
+}
+.contact__status .label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--bone);
+}
+
+.contact__finale {
+  height: 75vh;
+  display: grid;
+  place-items: center;
+}
+.contact__finale .label {
+  color: var(--bone);
+  letter-spacing: 0.3em;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px 28px;
+  padding-block: 26px 30px;
+  border-top: 1px solid var(--line);
+}
+.foot__seal {
+  color: var(--bone-3);
+}
+.foot__top {
+  color: var(--bone);
+}
+.foot__top:hover {
+  color: var(--ember);
+}
+
+@media (max-width: 900px) {
+  .contact__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .contact__grid li:nth-child(3) a {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .contact__line--serif {
+    padding-left: 0;
+  }
+}
